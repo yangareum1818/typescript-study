@@ -205,8 +205,7 @@ interface Add {
 
 ## 객체 타이핑
 
-> 명심하자 !<br/>
-> `Typescript`에서는 `type`자리가 없어도 말이 되는 `Javascript`코드여야 한다.
+> 명심하자 !<br/> > `Typescript`에서는 `type`자리가 없어도 말이 되는 `Javascript`코드여야 한다.
 
 ```typescript
 const obj: { lat: number; lon: number } = { lat: 37.5, lon: 127.5 };
@@ -254,3 +253,50 @@ const d: 5 = 6; // error
 ### 고정된 원시값이 필요한 이유
 
 - 상수인 `const`는 바뀔 일이 없으니 타입을 지정할 필요없이 정확한 고정된 원시값을 적어주기 위해서다.
+
+### 타입추론 ( 요약 )
+
+1. 타입추론에 맡겨라<br/>
+   단, `any`일 경우와 값이 `type`이 다를 경우를 제외
+2. 타입은 최대한 좁게 적어라.
+
+### 타입추론 활용 [ 변수 ]
+
+```typescript
+const a = 5;
+const b = "5";
+const c: string = 5;
+```
+
+위의 내용처럼 `a`에 마우스커서를 올리게 되면 `const a: '5'`라고 뜨게 된다.<br/>
+상수를 사용하면 변하지 않을 값( 정확한 값 )에는 굳이, 쓸데없이 `c`처럼 `type`을 지정해 주지 않아도 된다.<br/>
+`type`을 적어주게 되면 문제가 되는 **타이핑 방법**일 수 있다.<br/>
+5라는 정확한 타입을 부정확한 `string`으로 바꿔버린 셈이다.
+
+### 타입추론 활용 [ 함수 ]
+
+```typescript
+/* 함수 호출 */
+function add(x: number, y: number) {
+  return x + y;
+}
+const result = add(1, 2);
+```
+
+매개변수에 타입을 지정하지 않게 되면 `any`가 뜨게 되기 때문에 적어줘야한다.
+
+- 매개변수에는 타입을 꼭 지정해줘야한다.
+- `return`값은 생략해서 알아서 추론이 된다.
+- 최대한 `Typescript`가 추론해주는 것을 믿어라.
+
+### 타입추론 활용 [ 배열 ]
+
+```typescript
+const arr = ["123", "345", "567"];
+const arr2 = [123, 567];
+const arr3 = [123, 345, "hello"]; // const arr3: (string | number)[]
+const arr3: [number, number, string] = [123, 345, "hello"];
+```
+
+- 튜플인 경우는 `|`(타이픈)이라는 기호가 뜨는데, 내가 적은 값의 타입과 다를 경우이다.
+- 이럴 경우는 직접 타이핑을 해주면 된다.
